@@ -2,43 +2,33 @@ const timer = (seconds) => {
     let time = seconds * 1000
     return new Promise(res => setTimeout(res, time))
 }
-
-let thisFile = 0;
 (async () => {
     while (true) {
         let r = await axios.get('http://localhost:8080/filename')
-        let files = r.data.arr
+        let files = r.data.files
+        if (files == 'reload') {
+            window.location.reload()
+        }
         for (let file of files) {
-            var durationTime = file.slice(0, -3).split('').filter(function (ele) {
-                return !isNaN(ele);
-            }).join('')
-            file = file.toUpperCase()
-            if (file.endsWith('.PNG') || file.endsWith('.JPEG') || file.endsWith('.JPG')) {
+            if (file.fileType == 'image') {
                 video.setAttribute('src', ``)
                 video.style.display = 'none'
                 img.style.display = 'block'
-                img.setAttribute('src', `../public/arquivos/${file}`)
-            } else if (file.endsWith('.MP4')) {
+                img.setAttribute('src', `../public/arquivos/${file.filePath}`)
+            } else if (file.fileType == 'mp4') {
                 img.setAttribute('src', ``)
                 img.style.display = 'none'
                 video.style.display = 'block'
-                video.setAttribute('src', `../public/arquivos/${file}`)
+                video.setAttribute('src', `../public/arquivos/${file.filePath}`)
                 video.setAttribute('type', `video/mp4`)
-
-            }
-            else if (file.endsWith('.WEBM')) {
+            } else if (file.fileType == 'webm') {
                 img.setAttribute('src', ``)
                 img.style.display = 'none'
                 video.style.display = 'block'
-                video.setAttribute('src', `../public/arquivos/${file}`)
+                video.setAttribute('src', `../public/arquivos/${file.filePath}`)
                 video.setAttribute('type', `video/webm; codecs=vp9`)
             }
-            else {
-                durationTime = 0
-            }
-            await timer(durationTime)
+            await timer(file.fileDurationTime)
         }
     }
-
 })()
-
