@@ -5,6 +5,8 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
+
+const logger = require('./logger')
 const port = 8080
 var path = require('path');
 const app = express()
@@ -42,10 +44,22 @@ app.route('/tvcorporativa/tb').get((req, res) => {
     res.render('preset')
 })
 
+
+app.route('/tvcorporativa/admin').get((req, res) => {
+    res.render('admin')
+})
+
+
 app.route('/filename').get((req, res) => {
-    const files = getFiles(req.session.filial)
-    writeLog(req.session.filial, req.session.cookie.expires)
-    res.send({ files })
+    let dt = new Date()
+    try {
+        const files = getFiles(req.session.filial)
+        res.send({ files })
+        logger.info(`Arquivos enviados para ${req.session.filial}, dia ${dt.getDate()}/${(dt.getMonth()) + 1}/${dt.getFullYear()} às ${dt.getHours()}:${dt.getMinutes()}`)
+    } catch (e) {
+        logger.error(e)
+    }
+
 })
 
 function getFiles(filial) {
