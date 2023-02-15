@@ -1,5 +1,3 @@
-var fs = require('fs');
-
 let express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
@@ -7,6 +5,9 @@ const cors = require('cors')
 
 
 const logger = require('./logger')
+const file = require('./controller/files.js')
+const admin = require('./controller/admin.js')
+
 const port = 8080
 var path = require('path');
 const app = express()
@@ -46,6 +47,7 @@ app.route('/tvcorporativa/tb').get((req, res) => {
 
 
 app.route('/tvcorporativa/admin').get((req, res) => {
+    admin(req.sessionStore.sessions)
     res.render('admin')
 })
 
@@ -53,7 +55,7 @@ app.route('/tvcorporativa/admin').get((req, res) => {
 app.route('/filename').get((req, res) => {
     let dt = new Date()
     try {
-        const files = getFiles(req.session.filial)
+        const files = file(req.session.filial)
         res.send({ files })
         logger.info(`Arquivos enviados para ${req.session.filial}, dia ${dt.getDate()}/${(dt.getMonth()) + 1}/${dt.getFullYear()} às ${dt.getHours()}:${dt.getMinutes()}`)
     } catch (e) {
@@ -61,52 +63,6 @@ app.route('/filename').get((req, res) => {
     }
 
 })
-
-function getFiles(filial) {
-    if (filial != undefined) {
-        const arr = []
-        fs.readdirSync('./public/arquivos/geral').forEach(file => {
-            arr.push(fileInfo(`geral/${file}`))
-        });
-        fs.readdirSync(`./public/arquivos/${filial}`).forEach(folder => {
-            fs.readdirSync(`./public/arquivos/${filial}/${folder}`).forEach(file => {
-                arr.push(fileInfo(`${filial}/${folder}/${file}`))
-            })
-        });
-        return arr
-    }
-    else {
-        return 'reload'
-    }
-
-}
-
-function fileInfo(file) {
-    const infoFile = {}
-    infoFile.filePath = file
-    file = file.toUpperCase()
-    if (file.endsWith('.PNG') || file.endsWith('.JPEG') || file.endsWith('.JPG')) {
-        infoFile.fileType = 'image'
-    } else if (file.endsWith('.MP4')) {
-        infoFile.fileType = 'mp4'
-    }
-    else if (file.endsWith('.WEBM')) {
-        infoFile.fileType = 'webm'
-    }
-    else {
-        infoFile.durationTime = 0
-    }
-    infoFile.fileDurationTime = file.slice(0, -3).split('').filter(function (ele) {
-        return !isNaN(ele);
-    }).join('')
-    return infoFile
-}
-
-function writeLog(filial, expires) {
-    let date = new Date()
-    const content = `A filial ${filial} recebeu os arquivos às ${date}, irá expirar às ${expires} \n`
-    fs.appendFile('./public/arquivos/getlog.log', content, () => { })
-}
 
 
 app.listen(port, () => {
