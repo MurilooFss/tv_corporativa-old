@@ -1,3 +1,4 @@
+
 const timer = (seconds) => {
     let time = seconds * 1000
     return new Promise(res => setTimeout(res, time))
@@ -32,3 +33,17 @@ const timer = (seconds) => {
         }
     }
 })()
+function activateFullscreen() {
+    if (content.requestFullscreen) {
+        content.requestFullscreen();        // W3C spec
+    }
+    else if (content.mozRequestFullScreen) {
+        content.mozRequestFullScreen();     // Firefox
+    }
+    else if (content.webkitRequestFullscreen) {
+        content.webkitRequestFullscreen();  // Safari
+    }
+    else if (content.msRequestFullscreen) {
+        content.msRequestFullscreen();      // IE/Edge
+    }
+}

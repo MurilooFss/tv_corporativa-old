@@ -34,6 +34,7 @@ app.route('/').get((req, res) => {
     res.redirect('/tvcorporativa/default')
 })
 app.route('/tvcorporativa/default').get((req, res) => {
+    req.session.filial = 'geral'
     res.render('preset')
 })
 app.route('/tvcorporativa/matriz').get((req, res) => {
