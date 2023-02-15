@@ -19,38 +19,48 @@
                 <h1>Tv Corporativa - Mili S/A</h1>
                 <h3>Admin Portal</h3>
             </header>
+
             <div class="content">
                 <div class="grades">
                     <h3>Grades de Exibição</h3>
-                    <div class="grade">
-                        <p><strong>
-                                Grade:
-                            </strong> MATRIZ</p>
-                        <p><strong>
-                                Tempo total:
-                            </strong>23min
-                        </p>
-                        <p><strong>
-                                Quantidade de mídias:
-                            </strong>30
-                        </p>
-                    </div>
+                    <% data.grades.forEach(function(grade) {%>
+                        <div class="grade">
+                            <p><strong>
+                                    Grade:
+                                </strong>
+                                <%=grade[0].grade%>
+                            </p>
+                            <p><strong>
+                                    Tempo total:
+                                </strong>
+                                <%=grade[0].tempoTotal%> Minutos
+                            </p>
+                            <p><strong>
+                                    Quantidade de mídias:
+                                </strong>
+                                <%=grade[0].quantidadeMidias%>
+                            </p>
+                        </div>
+                        <%})%>
+
                 </div>
                 <div class="sessoes">
                     <h3>Sessões Ativas</h3>
-                    <div class="sessao">
-                        <p><strong>
-                                Sessão:
-                            </strong> fdasfasfas</p>
-                        <p><strong>
-                                Filial:
-                            </strong>Matriz
-                        </p>
-                        <p><strong>
-                                Último check-in:
-                            </strong>14/02/2023 - 14:33
-                        </p>
-                    </div>
+                    <% data.sessoes.activeSessions.forEach(function(sessao) {%>
+                        <div class="sessao">
+                            <p><strong>
+                                    Sessão:
+                                </strong>
+                                <%=sessao[1]%>
+                            </p>
+                            <p><strong>
+                                    Filial:
+                                </strong>
+                                <%=sessao[0]%>
+                            </p>
+
+                        </div>
+                        <%})%>
                 </div>
             </div>
         </section>

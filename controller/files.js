@@ -1,3 +1,4 @@
+const { Console } = require('console');
 var fs = require('fs');
 
 function getFiles(filial) {
@@ -6,19 +7,21 @@ function getFiles(filial) {
     }
     else {
         const arr = []
-        if (filial != 'geral') {
-            fs.readdirSync('./public/arquivos/geral').forEach(file => {
+        fs.readdirSync('./public/arquivos/geral').forEach(file => {
+            file = file.toUpperCase()
+            if ((file.endsWith('.PNG') || file.endsWith('.JPEG') || file.endsWith('.JPG')) || file.endsWith('.MP4') || file.endsWith('.WEBM')) {
+
                 arr.push(fileInfo(`geral/${file}`))
-            });
+            }
+        })
+        if (filial != 'geral') {
             fs.readdirSync(`./public/arquivos/${filial}`).forEach(folder => {
                 fs.readdirSync(`./public/arquivos/${filial}/${folder}`).forEach(file => {
-                    arr.push(fileInfo(`${filial}/${folder}/${file}`))
+                    file = file.toUpperCase()
+                    if ((file.endsWith('.PNG') || file.endsWith('.JPEG') || file.endsWith('.JPG')) || file.endsWith('.MP4') || file.endsWith('.WEBM')) {
+                        arr.push(fileInfo(`${filial}/${folder}/${file}`))
+                    }
                 })
-            });
-
-        } else {
-            fs.readdirSync('./public/arquivos/geral').forEach(file => {
-                arr.push(fileInfo(`geral/${file}`))
             });
         }
 
@@ -30,7 +33,7 @@ function getFiles(filial) {
 function fileInfo(file) {
     const infoFile = {}
     infoFile.filePath = file
-    file = file.toUpperCase()
+
     if (file.endsWith('.PNG') || file.endsWith('.JPEG') || file.endsWith('.JPG')) {
         infoFile.fileType = 'image'
     } else if (file.endsWith('.MP4')) {

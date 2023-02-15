@@ -13,7 +13,7 @@ var path = require('path');
 const app = express()
 
 app.use(session({
-    secret: 'vmaunhgoqakfd321nmfdsre132',
+    secret: 'emiliemiliemili',
     rolling: true,
     cookie: {
         expires: 120000,
@@ -42,13 +42,13 @@ app.route('/tvcorporativa/matriz').get((req, res) => {
 })
 app.route('/tvcorporativa/tb').get((req, res) => {
     req.session.filial = 'tb'
-    res.render('preset')
+    res.render('preset',)
 })
 
 
 app.route('/tvcorporativa/admin').get((req, res) => {
-    admin(req.sessionStore.sessions)
-    res.render('admin')
+    let data = admin(req.sessionStore.sessions)
+    res.render('admin', { data })
 })
 
 
