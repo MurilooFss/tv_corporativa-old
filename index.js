@@ -12,11 +12,19 @@ const port = 8080
 var path = require('path');
 const app = express()
 
+var dt = new Date()
+
+var memoryStore = new session.MemoryStore()
+
 app.use(session({
-    secret: 'emiliemiliemili',
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
     rolling: true,
+    store: memoryStore,
     cookie: {
-        expires: 120000,
+        maxAge: 40000,
+
     }
 }))
 app.use(cors())
@@ -31,9 +39,15 @@ app.set('views', path.join(__dirname, '/views'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.route('/').get((req, res) => {
-    res.redirect('/tvcorporativa/default')
+    res.redirect('/tvcorporativa/geral')
 })
-app.route('/tvcorporativa/default').get((req, res) => {
+
+app.use((req, res, next) => {
+    req.session.lastCheck = dt
+    next()
+})
+
+app.route('/tvcorporativa/geral').get((req, res) => {
     req.session.filial = 'geral'
     res.render('preset')
 })
@@ -54,7 +68,7 @@ app.route('/tvcorporativa/admin').get((req, res) => {
 
 
 app.route('/filename').get((req, res) => {
-    let dt = new Date()
+
     try {
         const files = file(req.session.filial)
         res.send({ files })

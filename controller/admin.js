@@ -3,7 +3,6 @@ const file = require('./files.js')
 function getAdminData(sessions) {
     const gradeGeral = getGeralFiles()
     const gradesFiliais = getAllFilialFiles()
-    const filiais = ['matriz', 'tb', 'cedi', 'maceio']
     const data = {
         grades: [[
             {
@@ -28,7 +27,7 @@ function getAdminData(sessions) {
 
         ],
         sessoes: {
-            activeSessions: getSessionsData(sessions, filiais)
+            activeSessions: getSessionsData(sessions),
         }
     }
     return data
@@ -61,12 +60,18 @@ function getTotalTime(grade) {
 function getSessionsData(sessions, filiais) {
     let activeSessions = []
     Object.keys(sessions).forEach((item) => {
-        filiais.forEach((filial) => {
-            var result = sessions[item].includes(filial)
-            if (result) {
-                activeSessions.push([filial, item])
+        let dt = new Date()
+        const sessao = JSON.parse(sessions[item])
+        let expires = new Date(sessao.cookie.expires);
+        let lastCheck = new Date(sessao.lastCheck)
+        if (sessao.filial && expires > dt) {
+            let active = {
+                id_session: item,
+                filial: sessao.filial,
+                lastCheck: `${lastCheck.getDate()}/${lastCheck.getMonth() + 1}/${lastCheck.getFullYear()} - ${lastCheck.getHours()}:${lastCheck.getMinutes()}`
             }
-        })
+            activeSessions.push(active);
+        }
     });
     return activeSessions
 

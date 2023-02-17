@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -51,12 +51,17 @@
                             <p><strong>
                                     Sessão:
                                 </strong>
-                                <%=sessao[1]%>
+                                <%=sessao.id_session%>
                             </p>
                             <p><strong>
                                     Filial:
                                 </strong>
-                                <%=sessao[0]%>
+                                <%=sessao.filial%>
+                            </p>
+                            <p><strong>
+                                    Último check-in:
+                                </strong>
+                                <%=sessao.lastCheck%>
                             </p>
 
                         </div>

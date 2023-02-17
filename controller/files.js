@@ -1,4 +1,3 @@
-const { Console } = require('console');
 var fs = require('fs');
 
 function getFiles(filial) {

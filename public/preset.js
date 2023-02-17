@@ -5,7 +5,7 @@ const timer = (seconds) => {
 }
 (async () => {
     while (true) {
-        let r = await axios.get('http://localhost:8080/filename')
+        let r = await axios.get('http://10.2.10.45:8080/filename')
         let files = r.data.files
         if (files == 'reload') {
             window.location.reload()
