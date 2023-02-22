@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mili S/A - TV Corporativa</title>
+    <link rel="stylesheet" href="/public/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <section>
+            <header>
+                <h1>Tv Corporativa - Mili S/A</h1>
+                <h3>Admin Portal</h3>
+            </header>
+
+            <div class="content">
+                <div class="grades">
+                    <h3>Grades de Exibição</h3>
+                    <% data.grades.forEach(function(grade) {%>
+                        <div class="grade">
+                            <p><strong>
+                                    Grade:
+                                </strong>
+                                <%=grade[0].grade%>
+                            </p>
+                            <p><strong>
+                                    Tempo total:
+                                </strong>
+                                <%=grade[0].tempoTotal%> Minutos
+                            </p>
+                            <p><strong>
+                                    Quantidade de mídias:
+                                </strong>
+                                <%=grade[0].quantidadeMidias%>
+                            </p>
+                        </div>
+                        <%})%>
+
+                </div>
+                <div class="sessoes">
+                    <h3>Sessões Ativas</h3>
+                    <% data.sessoes.activeSessions.forEach(function(sessao) {%>
+                        <div class="sessao">
+                            <p><strong>
+                                    Sessão:
+                                </strong>
+                                <%=sessao.id_session%>
+                            </p>
+                            <p><strong>
+                                    Filial:
+                                </strong>
+                                <%=sessao.filial%>
+                            </p>
+                            <p><strong>
+                                    Último check-in:
+                                </strong>
+                                <%=sessao.lastCheck%>
+                            </p>
+
+                        </div>
+                        <%})%>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
