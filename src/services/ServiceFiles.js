@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 module.exports = class Files {
-    static getFiles(filial) {
+    static getFiles(filial, setor) {
         if (filial == undefined) {
             return 'reload'
         }
@@ -18,6 +18,9 @@ module.exports = class Files {
             if (filial != 'geral') {
                 fs.readdirSync(`./src/public/arquivos/${filial}`).forEach(folder => {
                     fs.readdirSync(`./src/public/arquivos/${filial}/${folder}`).forEach(file => {
+                        if (setor != 'adm' && folder == 'adm') {
+                            return
+                        }
                         file = file.toUpperCase()
                         if ((file.endsWith('.PNG') || file.endsWith('.JPEG') || file.endsWith('.JPG')) || file.endsWith('.MP4') || file.endsWith('.WEBM')) {
                             arr.push(Files.fileInfo(`${filial}/${folder}/${file}`))

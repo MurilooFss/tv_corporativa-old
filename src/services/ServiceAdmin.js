@@ -64,6 +64,7 @@ module.exports = class Admin {
                 let active = {
                     id_session: item,
                     filial: sessao.filial,
+                    setor: sessao.setor,
                     lastCheck: `${lastCheck.getDate()}/${lastCheck.getMonth() + 1}/${lastCheck.getFullYear()} - ${lastCheck.getHours()}:${lastCheck.getMinutes()}`
                 }
                 activeSessions.push(active);

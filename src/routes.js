@@ -12,22 +12,28 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', (req, res) => {
-    res.redirect('/tvcorporativa/geral')
+    res.redirect('/geral')
 })
 
-router.get('/tvcorporativa/geral', (req, res) => {
+router.get('/geral', (req, res) => {
     req.session.filial = 'geral'
     res.render('preset')
 })
-router.get('/tvcorporativa/matriz', (req, res) => {
+router.get('/matriz/adm', (req, res) => {
     req.session.filial = 'matriz'
+    req.session.setor = 'adm'
     res.render('preset')
 })
-router.get('/tvcorporativa/tb', (req, res) => {
+router.get('/matriz/fabr', (req, res) => {
+    req.session.filial = 'matriz'
+    req.session.setor = 'fabr'
+    res.render('preset')
+})
+router.get('/tb', (req, res) => {
     req.session.filial = 'tb'
     res.render('preset',)
 })
-router.get('/tvcorporativa/admin', admin.getAdminData)
+router.get('/admin', admin.getAdminData)
 
 router.get('/filename', file)
 
